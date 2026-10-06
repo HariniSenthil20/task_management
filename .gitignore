@@ -16,3 +16,4 @@ Thumbs.db
 *.sublime-project
 *.vsix
 
+.env
