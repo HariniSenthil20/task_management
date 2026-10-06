@@ -17,3 +17,16 @@ Thumbs.db
 *.vsix
 
 .env
+task-manage.pem
+
+
+# Environment Variables
+.env
+.env.local
+.env.*
+
+# Backend Secrets
+application.properties.example
+application-*.properties
+application.yml
+application-*.yml

@@ -1,16 +1,15 @@
 #!/bin/bash
-# AWS EC2 User Data Script for Backend Setup (Ubuntu)
+# AWS EC2 User Data Script for Java Backend Setup (Ubuntu)
 
 # Update system
 sudo apt update -y
 sudo apt upgrade -y
 
-# Install Node.js (assuming a Node backend, common with React frontends)
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install -y nodejs
+# Install Java 17 (OpenJDK)
+sudo apt install -y openjdk-17-jdk
 
-# Install PM2 for process management
-sudo npm install -g pm2
+# Install Maven (optional, in case you want to build on the server)
+sudo apt install -y maven
 
 # Install Nginx to reverse proxy to your backend
 sudo apt install -y nginx
@@ -24,16 +23,16 @@ sudo ufw --force enable
 mkdir -p /home/ubuntu/task_management_backend
 chown ubuntu:ubuntu /home/ubuntu/task_management_backend
 
-# (Optional) Provide instructions in a README on the server
+# Provide instructions in a README on the server
 cat << 'EOF' > /home/ubuntu/README.txt
-Welcome to your EC2 Backend Server!
+Welcome to your EC2 Java Backend Server!
 
-1. Upload your backend code to /home/ubuntu/task_management_backend
-2. Run 'npm install' in that directory
-3. Start your app with PM2: 'pm2 start index.js --name backend'
-4. Configure Nginx to forward port 80 to your Node app port.
+1. Upload your backend code or compiled .jar file to /home/ubuntu/task_management_backend
+2. If uploading source code, build it using: 'mvn clean package'
+3. Run your Java app using: 'java -jar target/your-app-name.jar &'
+   (Consider setting up a systemd service to keep it running 24/7)
+4. Configure Nginx to forward port 80 to your Java app's port (e.g., 8080).
 EOF
 chown ubuntu:ubuntu /home/ubuntu/README.txt
 
 echo "EC2 Setup Complete!"
-
